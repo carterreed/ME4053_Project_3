@@ -32,5 +32,5 @@ pp.S = imag(pp.crank.length * (cos(pp.theta2) + (1j*sin(dp.theta2)))) + imag(pp.
 
 power_piston_volume = (dp.S - pp.S) * pi * (bore^2)/4;
 
-plot(pp.theta2, power_piston_volume)
+%plot(pp.theta2, power_piston_volume)
 
