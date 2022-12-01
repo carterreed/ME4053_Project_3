@@ -62,4 +62,3 @@ V1 = get_Power_Piston_Volume(pp, dp, bore);
 
 
 
-
