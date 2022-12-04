@@ -22,7 +22,7 @@ function [dp,pp] = get_Exp_Comp_volumes(CR,pp,dp,Vregen,bore)
 %  DATE: 12/3/2022
 %
 %  DESCRIPTION OF LOCAL VARIABLES
-%  A: cross-sectional area of the cylinder
+%  Area: cross-sectional area of the cylinder
 %  H: % height from OA to top of engine
 %  dp.volume: expansion volume
 %  pp.volume: compression volume
@@ -33,9 +33,9 @@ function [dp,pp] = get_Exp_Comp_volumes(CR,pp,dp,Vregen,bore)
 %  START OF EXECUTABLE CODE
 %
 
-A = pi * (bore ^2) / 4; %  area of the cyclinder 
+Area = pi * (bore ^2) / 4; %  area of the cyclinder 
 
-H = (CR * max(pp.S) - CR * (Vregen / A) - min(pp.S) + (Vregen / A)) / (CR-1); % equation for the height from OA to top of engine
+H = (CR * max(pp.S) - CR * (Vregen / Area) - min(pp.S) + (Vregen / Area)) / (CR-1); % equation for the height from OA to top of engine
 
 dp.volume = abs(H - dp.S) * pi * ((bore^2) / 4); % equation to calculate expansion volume
 
