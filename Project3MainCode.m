@@ -52,11 +52,10 @@ pp = get_position(pp);
 dp = get_position(dp);
 
 % find maximum height from the ground to top of engine
-H = get_max_height(CR,pp,Vregen,bore);
+volume = get_volume(CR,pp,Vregen,bore);
 
 % find volumes for both the power piston and the dispalcer
-dp.volume = abs(H - dp.S) * pi * ((bore^2)/4); % expansion volume
-pp.volume = abs(dp.S - pp.S ) * pi * ((bore^2)/4); % compression volume
+
 
 % find total volume of the system
 total_volume = dp.volume + pp.volume + Vregen;
