@@ -35,7 +35,7 @@ function [totMass] = get_mass(pp,dp, Vregen, TH, TL,R, P_min_BDC)
 % is at BDC then extract that volume. Set that volume to a variable to get
 % mass 
 for g = 1: length(pp.crank.angle)
-    if (pp.crank.angle(g) == deg2rad(-90))
+    if (pp.crank.angle(g) == deg2rad(270))
         ppvolumeBDC = pp.volume(g);
         dpvolumeBDC = dp.volume(g);
     end

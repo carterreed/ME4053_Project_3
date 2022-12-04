@@ -76,7 +76,7 @@ Cf = 0.002; % coefficient of fluctuation, dimenstionless
 w_avg = (2000 / 60) * 2 * pi; % average rotational velocity [rad/s]
 
 % establish angles
-theta = 0:1:360; % crank angle array to plot with
+theta = -90:1:270; % crank angle array to plot with starting at BDC
 theta2 = deg2rad(-90): deg2rad(1):deg2rad(270); % converting from degrees to radian, starting at BDC
 pp.crank.angle = theta2; % power piston crank angle
 dp.crank.angle = theta2+deg2rad(90); %  diplacer crank angle
@@ -115,16 +115,16 @@ I = TorqueToInertia(theta2, Torque, Cf, w_avg);
 % graph volume as a function of crankk angle
 figure(2)
 hold on
-plot(theta,total_volume, 'DisplayName', "Vtotal")
-plot(theta,pp.volume,'DisplayName', "Vcomp")
-plot(theta,dp.volume, 'DisplayName', "Vexp")
+plot(theta ,total_volume, 'DisplayName', "Vtotal")
+plot(theta ,pp.volume,'DisplayName', "Vcomp")
+plot(theta ,dp.volume, 'DisplayName', "Vexp")
 yline(Vregen, 'DisplayName', "Vregen")
 hold off
 title ('Volume versus Crank Angle')
 legend('Vtotal', 'Vcomp', 'Vexp', 'Vregen', 'Location', 'Best')
 xlabel('Crank Angle [deg]')
 ylabel('Volume [m^3]')
-xlim([0 360])
+xlim([-90 270])
 
 % graph pressure versus theta
 figure(3)
@@ -132,7 +132,7 @@ plot(theta, total_pressure / 1000)
 xlabel('Crank Angle [deg]')
 ylabel('Pressure [kPa] ')
 title('Pressure versus Crank Angle')
-xlim([0 360])
+xlim([-90 270])
 
 % graph force versus theta 
 figure(4)
@@ -140,7 +140,7 @@ plot (theta, force)
 xlabel('Crank Angle [deg]')
 ylabel('Force [N] ')
 title('Force versus Crank Angle')
-xlim([0 360])
+xlim([-90 270])
 
 % get variables for sterling cycle
 v_r=min(total_volume);

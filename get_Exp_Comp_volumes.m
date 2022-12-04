@@ -42,4 +42,3 @@ dp.volume = abs(H - dp.S) * pi * ((bore^2) / 4); % equation to calculate expansi
 pp.volume = abs(dp.S - pp.S ) * pi * ((bore^2) / 4); % equation to calculate compression volume
 
 end
-end
