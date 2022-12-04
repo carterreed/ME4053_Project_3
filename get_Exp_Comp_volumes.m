@@ -35,10 +35,11 @@ function [dp,pp] = get_Exp_Comp_volumes(CR,pp,dp,Vregen,bore)
 
 Area = pi * (bore ^2) / 4; %  area of the cyclinder 
 
-H = (CR * max(pp.S) - CR * (Vregen / Area) - min(pp.S) + (Vregen / Area)) / (CR-1); % equation for the height from OA to top of engine
+H = ((-Area * CR * max(pp.S)) + (Area * min(pp.S)) + (CR * Vregen) - Vregen) / (Area - (Area * CR));  % equation for the height from OA to top of engine
 
 dp.volume = abs(H - dp.S) * pi * ((bore^2) / 4); % equation to calculate expansion volume
 
 pp.volume = abs(dp.S - pp.S ) * pi * ((bore^2) / 4); % equation to calculate compression volume
 
 end
+
