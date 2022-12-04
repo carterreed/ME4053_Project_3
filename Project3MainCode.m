@@ -1,4 +1,4 @@
-%function [] = Project3MainCode()
+%function = Project3MainCode
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: Project3MainCode
 %
@@ -18,10 +18,13 @@
 %  DATE: 11/30/2022
 %
 %  DESCRIPTION OF LOCAL VARIABLES
+%  pp: struct for the power piston
+%  dp: struct for the displacer
 %  pp.crank.length: power piston crank length[m] 
 %  pp.rod.length: power piston connecting rod length[m]
 %  bore: cylinder bore, diameter [m]
 %  CR:  compression ratio, dimentionless
+%  TH:  higher temperature [K]
 %  TL: low temperature [K]
 %  R: ideal gas constant for air [J/kgK]
 %  P_min_BDC: gas pressure at bottom dead center[Pa]
@@ -30,22 +33,22 @@
 %  fly.thick: thickness of flywheel [m]
 %  Cf: coefficient of fluctuation, dimenstionless
 %  w_avg: average rotational velocity [rad/s]
-%  theta: % crank angle array to plot with
-%  theta2: % array converting degrees to radians using deg2rad command, and
+%  theta: crank angle array to plot with
+%  thetaS: angle from 0 x to S vector
+%  theta2: crank angle array converting degrees to radians using deg2rad command, and
 %          starting at bottom dead center
 %  pp.crank.angle: power piston crank angle
 %  dp.crank.angle: diplacer crank angle accounting for 90 degree phase
-%  total_volume:
-%  total_specific_volume: 
-%  force: 
-%  
+%  total_volume: total volume within the engine
+%  total_specific_volume: total specific volume within the engine
+%  force: force due to pressure on the power piston
 %
 %  FUNCTIONS CALLED
-%  get_position:
-%  get_Exp_Comp_volumes:
-%  get_total_volume: 
-%  get_mass: 
-%  get_pressure: 
+%  get_position: To calculate the the distance from ground OA, to the power piston and the displacer. This function allows both structs to be sent in to calculate distance
+%  get_Exp_Comp_volumes: get the pressure within the engine as a function of crank angle
+%  get_total_volume: calculate the total volume within the engine as a function of crank angle
+%  get_mass: Find the total mass of the fluid within the engine
+%  get_pressure: get the pressure within the engine as a function of crank angle
 %  get_Torque: 
 %  TorqueToInertia: Use torque at each angle to find average torque, change in KE, and I
 %
@@ -77,10 +80,11 @@ theta = 0:1:360; % crank angle array to plot with
 theta2 = deg2rad(-90): deg2rad(1):deg2rad(270); % converting from degrees to radian, starting at BDC
 pp.crank.angle = theta2; % power piston crank angle
 dp.crank.angle = theta2+deg2rad(90); %  diplacer crank angle
+thetaS = deg2rad(90); % angle from 0 x to S vector
 
 % find the distance from ground OA to both power piston and displacer
-pp = get_position(pp);
-dp = get_position(dp);
+pp = get_position(pp, thetaS);
+dp = get_position(dp, thetaS);
 
 % find volumes for both the power piston and the dispalcer, aka expansion
 % and compression volumes
@@ -90,13 +94,13 @@ dp = get_position(dp);
 total_volume = get_total_volume(dp, pp, Vregen);
 
 % get the total mass within the engine
-totMass = get_mass(dp,pp,R,TL,TH, P_min_BDC, Vregen);
+totMass = get_mass(pp,dp, Vregen, TH, TL,R, P_min_BDC);
 
 % find the total pressure within the engine 
-total_pressure = get_pressure(pp,dp,TH,TL,R,totMass,Vregen);
+total_pressure = get_pressure(pp,dp,totMass, Vregen, TH, TL,R);
 
 % find the force on the power piston
-force = total_pressure / (((bore^2) / 4) * pi);
+force = total_pressure * (((bore^2) / 4) * pi);
 
 % find the specific volume
 total_specific_volume = total_volume/totMass;

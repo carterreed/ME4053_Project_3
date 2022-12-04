@@ -1,29 +1,45 @@
 function [dp,pp] = get_Exp_Comp_volumes(CR,pp,dp,Vregen,bore)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  FUNCTION NAME: 
+%  FUNCTION NAME: get_Exp_Comp_volumes
 %
 %  PURPOSE 
+%  To calcualte the expansion and compression volumes as a function of
+%  crank angle
 %
 %  INPUT
+%  CR: compression ratio, dimentionless
+%  pp: struct for the power piston
+%  dp: struct for the displacer
+%  Vregen: regenerator dead volume [m^3]
+%  bore: cylinder bore, diameter [m]
 %
 %  OUTPUT
-%
+%  pp: struct for the power piston
+%  dp: struct for the displacer
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%  AUTHOR:
-%  DATE: 
+%  AUTHOR: Carter Reed
+%  DATE: 12/3/2022
 %
 %  DESCRIPTION OF LOCAL VARIABLES
+%  A: cross-sectional area of the cylinder
+%  H: % height from OA to top of engine
+%  dp.volume: expansion volume
+%  pp.volume: compression volume
 %
 %  FUNCTIONS CALLED
+%  N/A
 %
 %  START OF EXECUTABLE CODE
 %
 
-A = pi * (bore / 2) ^2; %  area of the cyclinder 
+A = pi * (bore ^2) / 4; %  area of the cyclinder 
 
-H = (CR * max(pp.S) - CR * (Vregen / A) - min(pp.S) + (Vregen / A)) / (CR-1); % height from OA to top of engine
-dp.volume = abs(H - dp.S) * pi * ((bore^2)/4); % expansion volume
-pp.volume = abs(dp.S - pp.S ) * pi * ((bore^2)/4); % compression volume
+H = (CR * max(pp.S) - CR * (Vregen / A) - min(pp.S) + (Vregen / A)) / (CR-1); % equation for the height from OA to top of engine
 
+dp.volume = abs(H - dp.S) * pi * ((bore^2) / 4); % equation to calculate expansion volume
+
+pp.volume = abs(dp.S - pp.S ) * pi * ((bore^2) / 4); % equation to calculate compression volume
+
+end
 end

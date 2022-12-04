@@ -1,4 +1,4 @@
-function [g] = get_position(g)
+function [g] = get_position(g, thetaS)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: get_position
 %
@@ -9,6 +9,7 @@ function [g] = get_position(g)
 %
 %  INPUT
 %  g: placeholder for the struct pp, or cr
+%  thetaS: angle from 0 x to S vector
 %
 %  OUTPUT
 %  g: placeholder for the struct pp, or cr
@@ -19,21 +20,17 @@ function [g] = get_position(g)
 %  DATE: 12/3/2022
 %
 %  DESCRIPTION OF LOCAL VARIABLES
-%  thetaS: 
-%  rod.angle: 
-%  S: distance from ground to either 
+%  rod.theta3: angle from 0 x to the connecting rod
+%  S: distance from ground to either power piston or displacer
 %
 %  FUNCTIONS CALLED
-%
+%  N/A
 %  START OF EXECUTABLE CODE
 %
 
+g.rod.theta3 = thetaS + asin((-g.crank.length / g.rod.length) * sin(g.crank.angle - thetaS)); % equation to calculate angle from x axis to connecting rod
 
-thetaS = deg2rad(90);
-
-g.rod.angle = thetaS + asin((-g.crank.length / g.rod.length) * sin(g.crank.angle - thetaS)); 
-
-g.S = (g.crank.length * sin(g.crank.angle)) + (g.rod.length * cos(g.rod.angle - thetaS));
+g.S = (g.crank.length * sin(g.crank.angle)) + (g.rod.length * cos(g.rod.theta3 - thetaS)); % equation to calculate distance from ground OA to displacer and power piston
 
 end
 
