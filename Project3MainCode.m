@@ -82,7 +82,7 @@ total_specific_volume = total_volume/totMass;
 [Torque_average, Torque] = get_Torque(pp, total_pressure, bore, theta);
 
 % use the results from torque to calculate moment of intertia of flywheel
-% I = TorqueToInertia(theta, Torque, Cf, w_avg);
+I = TorqueToInertia(theta2, Torque, Cf, w_avg);
 
 %% plotting
 % graph volume as a function of crankk angle

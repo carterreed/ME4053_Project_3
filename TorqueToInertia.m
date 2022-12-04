@@ -27,9 +27,10 @@ function [ I ]  = TorqueToInertia(x, y, Cf, w)
 %   trapz, plot
 %  START OF EXECUTABLE CODE
 %
-figure
-hold on
-plot(x,y);
+
+% figure(6)
+% hold on
+% plot(x,y);
 
 Int = trapz(x,y);
 T_avg = Int/(2*pi);
@@ -37,8 +38,8 @@ T_avg = Int/(2*pi);
 %this bit is for visualization of T average on the graph
 AvgX = [0, 2*pi];
 AvgY = [T_avg,T_avg];
-figure(6)
-plot(AvgX, AvgY);
+% figure(7)
+% plot(AvgX, AvgY);
 
 yZeroed = zeros(1, length(x)); %shift the entire graph down so zeros can be found
 for i = 1:length(x)
@@ -68,8 +69,9 @@ for i = 1:length(yDome)
     yDome(i) = yZeroed(i+itheta0-1);
 end
 
-figure(7)
-plot(xDome,yDome); %feel free to check the plot to make sure this part was done correctly
+% figure(8)
+% plot(xDome,yDome); %feel free to check the plot to make sure this part was done correctly
+
 KE = trapz(xDome,yDome); %note that the first and last terms of yDome are negative, but they *should* be negligible
 
 I = KE/(Cf*w^2);
