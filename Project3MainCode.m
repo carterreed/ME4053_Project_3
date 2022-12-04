@@ -18,23 +18,25 @@
 %  DESCRIPTION OF LOCAL VARIABLES
 %
 %  FUNCTIONS CALLED
+%  get_position:
+%  get_Exp_Comp_volumes:
+%  get_total_volume: 
+%  get_mass: 
+%  get_pressure: 
+%  get_Torque: 
+%  TorqueToInertia: Use torque at each angle to find average torque, change in KE, and I
 %
 %  START OF EXECUTABLE CODE
 %
 
-% known variables
-theta = deg2rad(-90): deg2rad(1):deg2rad(270); % convertting from degrees to radian, starting at BDC
-theta2 = 0:1:360; % crank angle array
+% Establish known variables
 pp.crank.length = 0.0138; % power piston crank length[m] 
 pp.rod.length = 0.046; % power piston connecting rod length[m]
-pp.crank.angle = theta;
 
 dp.crank.length = 0.0138; % displacer crank length, [m]
 dp.rod.length = 0.0705; % diplacer connecting rod length[m]
-dp.crank.angle = theta+deg2rad(90); %  diplacer crank angle
 
 bore = 0.07; % cylinder bore, diameter [m]
-phase = 90; % phase shift [m]
 CR = 1.58; % compression ratio, dimentionless 
 TH = 900; % higher temperature [K]
 TL = 300; % low temperature [K]
@@ -44,21 +46,24 @@ Vregen = 0.00001; % regenerator dead volume [m^3]
 
 fly.width = 0.05; % width of flywheel[m]
 fly.thick = 0.07; % thickness of flywheel [m]
-Cf = 0.002; % coefficient of fluctuation dimenstionless 
+Cf = 0.002; % coefficient of fluctuation, dimenstionless 
 w_avg = (200 / 60) * 2 * pi; % average rotational velocity [rad/s]
+
+% establish angles
+theta = 0:1:360; % crank angle array to plot with
+theta2 = deg2rad(-90): deg2rad(1):deg2rad(270); % converting from degrees to radian, starting at BDC
+pp.crank.angle = theta2; % power piston crank angle
+dp.crank.angle = theta2+deg2rad(90); %  diplacer crank angle
 
 % find the positions of both the power piston and the displacer 
 pp = get_position(pp);
 dp = get_position(dp);
 
-% find maximum height from the ground to top of engine
-volume = get_volume(CR,pp,Vregen,bore);
-
 % find volumes for both the power piston and the dispalcer
-
+[dp,pp] = get_Exp_Comp_volumes(CR,pp,dp,Vregen,bore);
 
 % find total volume of the system
-total_volume = dp.volume + pp.volume + Vregen;
+total_volume = get_total_volume(dp, pp, Vregen);
 
 % find masses within the expansion volume, compression volume, and regen
 % vulume, then get a total mass within the system
@@ -68,21 +73,24 @@ totMass = get_mass(dp,pp,R,TL,TH, P_min_BDC, Vregen);
 total_pressure = get_pressure(pp,dp,TH,TL,R,totMass,Vregen);
 
 % find force on power piston 
-force_piston = total_pressure / (((bore^2) / 4) * pi);
+force= total_pressure / (((bore^2) / 4) * pi);
 
 % find the specific volume
 total_specific_volume = total_volume/totMass;
 
-% get values for ideal engine cycle
+% calculate torque based on total pressure on piston and plot results
+[Torque_average, Torque] = get_Torque(pp, total_pressure, bore, theta);
 
+% use the results from torque to calculate moment of intertia of flywheel
+% I = TorqueToInertia(theta, Torque, Cf, w_avg);
 
 %% plotting
 % graph volume as a function of crankk angle
-figure(1)
+figure(2)
 hold on
-plot(theta2,total_volume, 'DisplayName', "Vtotal")
-plot(theta2,pp.volume,'DisplayName', "Vcomp")
-plot(theta2,dp.volume, 'DisplayName', "Vexp")
+plot(theta,total_volume, 'DisplayName', "Vtotal")
+plot(theta,pp.volume,'DisplayName', "Vcomp")
+plot(theta,dp.volume, 'DisplayName', "Vexp")
 yline(Vregen, 'DisplayName', "Vregen")
 hold off
 title ('Volume versus Crank Agnle')
@@ -92,22 +100,38 @@ ylabel('Volume [m^3]')
 xlim([0 360])
 
 % graph pressure versus theta
-figure(2)
-plot(theta2, total_pressure / 1000)
+figure(3)
+plot(theta, total_pressure / 1000)
 xlabel('Crank Angle [deg]')
 ylabel('Pressure [kPa] ')
 title('Pressure versus Crank Angle')
+xlim([0 360])
 
 % graph force versus theta 
-figure(3)
-plot (theta2, force)
+figure(4)
+plot (theta, force)
 xlabel('Crank Angle [deg]')
 ylabel('Force [N] ')
 title('Force versus Crank Angle')
+xlim([0 360])
 
 % graph specific volume vs. pressure
-figure(4)
-plot (total_specific_volume,(total_pressure)/1000)
+v_r=min(total_volume);
+v_l=max(total_volume);
+volume_plot=linspace(v_l,v_r,1000);
+p_b=totMass*R*TH./volume_plot;
+p_t=totMass*R*TL./volume_plot;
+
+figure(5)
+plot (total_specific_volume,total_pressure / 1000)
 xlabel('specific volume [m^3/kg]')
 ylabel('Pressure [kPa]')
 title('Pressure Versus Specific Volume for a Stirling Engine')
+hold on
+plot(volume_plot/totMass,p_b/1000,'g')
+hold on
+plot(volume_plot/totMass,p_t/1000,'b')
+hold on
+line([v_r./totMass,v_r./totMass],[max(p_t/1000),max(p_b/1000)],'color','c')
+line([v_l./totMass,v_l./totMass],[min(p_t/1000),min(p_b/1000)],'color','m')
+
