@@ -1,4 +1,4 @@
-function [Force] = get_force(pp,dp,TH,TL,R,totMass,Vregen,bore)
+function Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: get force function
 %
@@ -33,14 +33,14 @@ p_0=101*10^3;
 area=pi*(bore^2)/4;
 total_pressure = get_pressure(pp,dp,TH,TL,R,totMass,Vregen);
 if length(pp.crank.angle)==1
-   if pp.crank.angle< 180
+   if pp.crank.angle< 180 
        Force=((total_pressure-p_0)*area)/(cos(beta)+sin(beta));
    else
         Force=((total_pressure-p_0)*area)/(cos(beta)-sin(beta));
    end
 elseif length(pp.crank.angle)>1
    for i=1:361
-       if pp.crank.angle< 180
+       if pp.crank.angle< 180 
            Force_empty(i)=((total_pressure(i)-p_0)*area)/(cos(beta(i))+sin(beta(i)));
        else
            Force_empty(i)=((total_pressure(i)-p_0)*area)/(cos(beta(i))-sin(beta(i)));

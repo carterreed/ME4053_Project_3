@@ -102,10 +102,12 @@ total_pressure = get_pressure(pp,dp,totMass, Vregen, TH, TL,R);
 force = (total_pressure - 101300) * (((bore^2) / 4) * pi);
 
 % Find force act on the crank
-Force = get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
+Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
 
-% calculate torque based on total pressure on piston and plot results
-Torque= get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore);
+% find torque on crank
+Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore);
+
+%calculate the average torque
 Torque_average= trapz(pp.crank.angle,Torque)/(max(pp.crank.angle)-min(pp.crank.angle));
 
 % use the results from torque to calculate moment of intertia of flywheel

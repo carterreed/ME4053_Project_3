@@ -1,4 +1,4 @@
-function [Torque] = get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore)
+function Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: get_torque function
 %
@@ -27,7 +27,6 @@ function [Torque] = get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore)
 %  function Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore)
 %  START OF EXECUTABLE CODE
 %
-
 Torque_empty=zeros(1,length(pp.crank.angle));
 beta=asin(pp.crank.length*sin(pp.crank.angle)/pp.rod.length);
 Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
@@ -39,5 +38,5 @@ elseif length(pp.crank.angle)>1
    end
    Torque=Torque_empty;
 end
-
 end
+
