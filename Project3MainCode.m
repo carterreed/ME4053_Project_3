@@ -101,9 +101,6 @@ total_pressure = get_pressure(pp,dp,totMass, Vregen, TH, TL,R);
 % find the force on the power piston
 force = (total_pressure - 101300) * (((bore^2) / 4) * pi);
 
-% Find force act on the crank
-%Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
-
 % find torque on crank
 Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore, force);
 
@@ -155,16 +152,8 @@ title('Torque versus Crank Angle')
 legend('Torque on Flywheel','Average Torque', 'Location', 'Best')
 xlim([0 360])
 
-% graph Force versus theta at the piston connecting rod
-figure(4)
-plot (theta, Force)
-xlabel('Crank Angle [deg]')
-ylabel('Force [N] ')
-title('Force at the Conmnecting Rod versus Crank Angle')
-xlim([0 360])
-
 % graph Force versus theta at the piston due to pressure
-figure(5)
+figure(4)
 plot (theta, force)
 xlabel('Crank Angle [deg]')
 ylabel('Force [N] ')
@@ -173,7 +162,7 @@ xlim([0 360])
 
 % graph pressure versus specific volume for sterling engine and sterling
 % cycle
-figure(6)
+figure(5)
 plot (total_specific_volume,total_pressure / 1000)
 xlabel('specific volume [m^3/kg]')
 ylabel('Pressure [kPa]')
