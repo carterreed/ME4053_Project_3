@@ -35,8 +35,7 @@
 %  w_avg: average rotational velocity [rad/s]
 %  theta: crank angle array to plot with
 %  thetaS: angle from 0 x to S vector
-%  theta2: crank angle array converting degrees to radians using deg2rad command, and
-%          starting at bottom dead center
+%  theta2: crank angle array converting degrees to radians using deg2rad command
 %  pp.crank.angle: power piston crank angle
 %  dp.crank.angle: diplacer crank angle accounting for 90 degree phase
 %  total_volume: total volume within the engine
@@ -76,8 +75,8 @@ Cf = 0.002; % coefficient of fluctuation, dimenstionless
 w_avg = (2000 / 60) * 2 * pi; % average rotational velocity [rad/s]
 
 % establish angles
-theta = -90:1:270; % crank angle array to plot with starting at BDC
-theta2 = deg2rad(-90): deg2rad(1):deg2rad(270); % converting from degrees to radian, starting at BDC
+theta = 0:1:360; % crank angle array to plot with 
+theta2 = deg2rad(0): deg2rad(1):deg2rad(360); % converting from degrees to radian
 pp.crank.angle = theta2; % power piston crank angle
 dp.crank.angle = theta2+deg2rad(90); %  diplacer crank angle
 thetaS = deg2rad(90); % angle from 0 x to S vector
@@ -102,18 +101,22 @@ total_pressure = get_pressure(pp,dp,totMass, Vregen, TH, TL,R);
 % find the force on the power piston
 force = (total_pressure - 101300) * (((bore^2) / 4) * pi);
 
-% find the specific volume
-total_specific_volume = total_volume/totMass;
+% Find force act on the crank
+Force = get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
 
 % calculate torque based on total pressure on piston and plot results
-[Torque_average, Torque] = get_Torque(pp, total_pressure, bore, theta);
+Torque= get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore);
+Torque_average= trapz(pp.crank.angle,Torque)/(max(pp.crank.angle)-min(pp.crank.angle));
 
 % use the results from torque to calculate moment of intertia of flywheel
 I = TorqueToInertia(theta2, Torque, Cf, w_avg);
 
+% find the specific volume
+total_specific_volume = total_volume/totMass;
+
 %% plotting
 % graph volume as a function of crankk angle
-figure(2)
+figure(1)
 hold on
 plot(theta ,total_volume, 'DisplayName', "Vtotal")
 plot(theta ,pp.volume,'DisplayName', "Vcomp")
@@ -124,23 +127,40 @@ title ('Volume versus Crank Angle')
 legend('Vtotal', 'Vcomp', 'Vexp', 'Vregen', 'Location', 'Best')
 xlabel('Crank Angle [deg]')
 ylabel('Volume [m^3]')
-xlim([-90 270])
+xlim([0 360])
 
 % graph pressure versus theta
-figure(3)
+figure(2)
 plot(theta, total_pressure / 1000)
 xlabel('Crank Angle [deg]')
 ylabel('Pressure [kPa] ')
 title('Pressure versus Crank Angle')
-xlim([-90 270])
+xlim([0 360])
 
-% graph force versus theta 
+figure(3)
+plot (theta, Torque)
+yline(Torque_average)
+xlabel('Crank Angle [deg]')
+ylabel('Torque [Nm] ')
+title('Torque versus Crank Angle')
+legend('Torque on Flywheel','Average Torque', 'Location', 'Best')
+xlim([0 360])
+
+% graph Force versus theta at the piston connecting rod
 figure(4)
+plot (theta, Force)
+xlabel('Crank Angle [deg]')
+ylabel('Force [N] ')
+title('Force at the Conmnecting Rod versus Crank Angle')
+xlim([0 360])
+
+% graph Force versus theta at the piston due to pressure
+figure(5)
 plot (theta, force)
 xlabel('Crank Angle [deg]')
 ylabel('Force [N] ')
-title('Force versus Crank Angle')
-xlim([-90 270])
+title('Force versus Crank Angle due to Pressure')
+xlim([0 360])
 
 % get variables for sterling cycle
 v_r=min(total_volume);
@@ -151,7 +171,7 @@ p_t=totMass*R*TL./volume_plot;
 
 % graph pressure versus specific volume for sterling engine and sterling
 % cycle
-figure(5)
+figure(6)
 plot (total_specific_volume,total_pressure / 1000)
 xlabel('specific volume [m^3/kg]')
 ylabel('Pressure [kPa]')
