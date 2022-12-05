@@ -114,6 +114,13 @@ I = TorqueToInertia(theta2, Torque, Cf, w_avg);
 % find the specific volume
 total_specific_volume = total_volume/totMass;
 
+% get variables for sterling cycle
+v_r=min(total_volume);
+v_l=max(total_volume);
+volume_plot=linspace(v_l,v_r,1000);
+p_b=totMass*R*TH./volume_plot;
+p_t=totMass*R*TL./volume_plot;
+
 %% plotting
 % graph volume as a function of crankk angle
 figure(1)
@@ -161,13 +168,6 @@ xlabel('Crank Angle [deg]')
 ylabel('Force [N] ')
 title('Force versus Crank Angle due to Pressure')
 xlim([0 360])
-
-% get variables for sterling cycle
-v_r=min(total_volume);
-v_l=max(total_volume);
-volume_plot=linspace(v_l,v_r,1000);
-p_b=totMass*R*TH./volume_plot;
-p_t=totMass*R*TL./volume_plot;
 
 % graph pressure versus specific volume for sterling engine and sterling
 % cycle
