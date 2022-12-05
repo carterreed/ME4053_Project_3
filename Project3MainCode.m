@@ -48,7 +48,7 @@ density_steel=8000; % Assume 304 stainless steel [kg/m^3]
 fly.width = 0.05; % width of flywheel[m]
 fly.thick = 0.07; % thickness of flywheel [m]
 Cf = 0.002; % coefficient of fluctuation, dimenstionless 
-w_avg = (200 / 60) * 2 * pi; % average rotational velocity [rad/s]
+w_avg = (2000 / 60) * 2 * pi; % average rotational velocity [rad/s]
 
 % establish angles
 theta = 0:1:360; % crank angle array to plot with
@@ -84,6 +84,9 @@ total_specific_volume = total_volume/totMass;
 
 % use the results from torque to calculate moment of intertia of flywheel
 I = TorqueToInertia(theta2, Torque, Cf, w_avg);
+
+%use calculated I to size the flywheel 
+[mass_flywheel, D_outer, D_inner]=FlywheelSize(I,density_steel,fly); 
 
 %% plotting
 % graph volume as a function of crankk angle
