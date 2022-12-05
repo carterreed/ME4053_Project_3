@@ -100,7 +100,7 @@ totMass = get_mass(pp,dp, Vregen, TH, TL,R, P_min_BDC);
 total_pressure = get_pressure(pp,dp,totMass, Vregen, TH, TL,R);
 
 % find the force on the power piston
-force = total_pressure * (((bore^2) / 4) * pi);
+force = (total_pressure - 101300) * (((bore^2) / 4) * pi);
 
 % find the specific volume
 total_specific_volume = total_volume/totMass;
