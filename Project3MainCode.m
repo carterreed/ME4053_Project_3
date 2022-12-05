@@ -76,7 +76,7 @@ w_avg = (2000 / 60) * 2 * pi; % average rotational velocity [rad/s]
 
 % establish angles
 theta = 0:1:360; % crank angle array to plot with 
-theta2 = deg2rad(0): deg2rad(1):deg2rad(360); % converting from degrees to radian
+theta2 = deg2rad(-90): deg2rad(1):deg2rad(270); % converting from degrees to radian
 pp.crank.angle = theta2; % power piston crank angle
 dp.crank.angle = theta2+deg2rad(90); %  diplacer crank angle
 thetaS = deg2rad(90); % angle from 0 x to S vector
@@ -102,10 +102,10 @@ total_pressure = get_pressure(pp,dp,totMass, Vregen, TH, TL,R);
 force = (total_pressure - 101300) * (((bore^2) / 4) * pi);
 
 % Find force act on the crank
-Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
+%Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
 
 % find torque on crank
-Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore);
+Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore, force);
 
 %calculate the average torque
 Torque_average= trapz(pp.crank.angle,Torque)/(max(pp.crank.angle)-min(pp.crank.angle));

@@ -1,4 +1,4 @@
-function Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore)
+function Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore, force)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: get_torque function
 %
@@ -29,12 +29,12 @@ function Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore)
 %
 Torque_empty=zeros(1,length(pp.crank.angle));
 beta=asin(pp.crank.length*sin(pp.crank.angle)/pp.rod.length);
-Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
+%Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
 if length(pp.crank.angle)==1
-   Torque=Force*sin(beta)*pp.crank.length*cos(pp.crank.angle)+Force*cos(beta)*pp.crank.length*sin(pp.crank.angle);
+   Torque=force*sin(beta)*pp.crank.length*cos(pp.crank.angle)+force*cos(beta)*pp.crank.length*sin(pp.crank.angle);
 elseif length(pp.crank.angle)>1
    for i=1:361
-       Torque_empty(i)=Force(i)*sin(beta(i))*pp.crank.length*cos(pp.crank.angle(i))+Force(i)*cos(beta(i))*pp.crank.length*sin(pp.crank.angle(i));
+       Torque_empty(i)=force(i)*sin(beta(i))*pp.crank.length*cos(pp.crank.angle(i))+force(i)*cos(beta(i))*pp.crank.length*sin(pp.crank.angle(i));
    end
    Torque=Torque_empty;
 end
