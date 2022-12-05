@@ -123,6 +123,7 @@ v_l=max(total_volume);
 volume_plot=linspace(v_l,v_r,1000);
 p_b=totMass*R*TH./volume_plot;
 p_t=totMass*R*TL./volume_plot;
+y=x;
 
 %% plotting
 % graph volume as a function of crankk angle
