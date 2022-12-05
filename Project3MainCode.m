@@ -118,7 +118,7 @@ total_specific_volume = total_volume/totMass;
 [ m, Do, Di ]  = FlywheelSize(I,steel_d,fly);
 
 % calculate power using 2 different methods
-[Power_1, Power_2] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume);
+[Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume);
 
 % get variables for sterling cycle
 v_r=min(total_volume);
@@ -137,7 +137,7 @@ plot(theta ,dp.volume, 'DisplayName', "Vexp")
 yline(Vregen, 'DisplayName', "Vregen")
 hold off
 title ('Volume versus Crank Angle')
-legend('Vtotal', 'Vcomp', 'Vexp', 'Vregen', 'Location', 'Best')
+legend('Vtotal', 'Vcomp', 'Vexp', 'Location', 'Best')
 xlabel('Crank Angle [deg]')
 ylabel('Volume [m^3]')
 xlim([0 360])
