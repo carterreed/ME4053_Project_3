@@ -68,6 +68,7 @@ TL = 300; % low temperature [K]
 R = 287; % ideal gas constant for air [J/kgK]
 P_min_BDC = 500000; % gas pressure at bottom dead center[Pa]
 Vregen = 0.00001; % regenerator dead volume [m^3]
+steel_d = 8000; % density of steel [kg/m^3]
 
 fly.width = 0.05; % width of flywheel[m]
 fly.thick = 0.07; % thickness of flywheel [m]
@@ -112,6 +113,9 @@ I = TorqueToInertia(theta2, Torque, Cf, w_avg);
 
 % find the specific volume
 total_specific_volume = total_volume/totMass;
+
+% caalculate size of flywheel
+[ m, Do, Di ]  = FlywheelSize(I,steel_d,fly);
 
 % get variables for sterling cycle
 v_r=min(total_volume);

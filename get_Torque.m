@@ -27,9 +27,9 @@ function Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore, force)
 %  function Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore)
 %  START OF EXECUTABLE CODE
 %
-Torque_empty=zeros(1,length(pp.crank.angle));
+Torque_empty=zeros(1,length(pp.crank.angle)); 
 beta=asin(pp.crank.length*sin(pp.crank.angle)/pp.rod.length);
-%Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore);
+
 if length(pp.crank.angle)==1
    Torque=force*sin(beta)*pp.crank.length*cos(pp.crank.angle)+force*cos(beta)*pp.crank.length*sin(pp.crank.angle);
 elseif length(pp.crank.angle)>1
