@@ -117,6 +117,9 @@ total_specific_volume = total_volume/totMass;
 % caalculate size of flywheel
 [ m, Do, Di ]  = FlywheelSize(I,steel_d,fly);
 
+% calculate power using 2 different methods
+[Power_1, Power_2] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume);
+
 % get variables for sterling cycle
 v_r=min(total_volume);
 v_l=max(total_volume);
@@ -153,7 +156,7 @@ yline(Torque_average)
 xlabel('Crank Angle [deg]')
 ylabel('Torque [Nm] ')
 title('Torque versus Crank Angle')
-legend('Torque on Flywheel','Average Torque', 'Location', 'Best')
+legend('Torque on Flywheel','Average Torque')
 xlim([0 360])
 
 % graph Force versus theta at the piston due to pressure
