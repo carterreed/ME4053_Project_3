@@ -43,7 +43,6 @@ TL = 300; % low temperature [K]
 R = 287; % ideal gas constant for air [J/kgK]
 P_min_BDC = 500000; % gas pressure at bottom dead center[Pa]
 Vregen = 0.00001; % regenerator dead volume [m^3]
-density_steel=8000; % Assume 304 stainless steel [kg/m^3]
 
 fly.width = 0.05; % width of flywheel[m]
 fly.thick = 0.07; % thickness of flywheel [m]

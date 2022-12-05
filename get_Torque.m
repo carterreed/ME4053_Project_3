@@ -21,18 +21,18 @@ function [Torque_average, Torque] = get_Torque(pp, total_pressure, bore, theta2)
 %
 
 Force_empty=zeros(1,length(pp.crank.angle));
-beta=asin(pp.crank.length*sind(pp.crank.angle)/pp.rod.length);
+beta=asin(pp.crank.length*sin(pp.crank.angle)/pp.rod.length);
 p_0=101*10^3;
 area=pi*(bore^2)/4;
 if length(pp.crank.angle)==1
-   if pp.crank.angle< 180
+   if pp.crank.angle< deg2rad(180)
        Force=((total_pressure-p_0)*area)/(cos(beta)+sin(beta));
    else
         Force=((total_pressure-p_0)*area)/(cos(beta)-sin(beta));
    end
 elseif length(pp.crank.angle)>1
    for i=1:361
-       if pp.crank.angle< 180
+       if pp.crank.angle< deg2rad(180)
            Force_empty(i)=((total_pressure(i)-p_0)*area)/(cos(beta(i))+sin(beta(i)));
        else
            Force_empty(i)=((total_pressure(i)-p_0)*area)/(cos(beta(i))-sin(beta(i)));
