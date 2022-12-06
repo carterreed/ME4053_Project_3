@@ -1,10 +1,9 @@
-%function = Project3MainCode
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: Project3MainCode
 %
 %  PURPOSE 
-%  to establish known dimanetions and angle, call relevent functions to
-%  solve the flywheel project, and plot the requeired deliverables 
+%  to establish known dimanetions, angles, call relevent functions to
+%  solve the flywheel project, and plot the required deliverables 
 %
 %  INPUT
 %  N/A
@@ -14,7 +13,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%  AUTHOR: Carter Reed
+%  AUTHOR: Carter Reed, Michael Fleming, Tian Huang, Yupeng Ye
 %  DATE: 11/30/2022
 %
 %  DESCRIPTION OF LOCAL VARIABLES
