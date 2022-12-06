@@ -182,3 +182,10 @@ hold on
 line([v_r./totMass,v_r./totMass],[max(p_t/1000),max(p_b/1000)],'color','g')
 line([v_l./totMass,v_l./totMass],[min(p_t/1000),min(p_b/1000)],'color','g')
 legend('Sterling Engine','Ideal Sterling Cycle')
+
+% plot total volume versus total pressure
+figure (6)
+plot(total_volume, total_pressure/1000);
+xlabel('Total Volume [m^3]')
+ylabel('Pressure [kPa]')
+title('Pressure Versus Total Volume for a Stirling Engine')

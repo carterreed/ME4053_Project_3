@@ -1,4 +1,4 @@
-function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume, totMass)
+function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_volume)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: getPower
 %
@@ -9,7 +9,7 @@ function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressu
 %  Torque_average: average torque applied by the flywheel
 %  w_avg: average rotational velocity [rad/s]
 %  total_pressure: total pressure in the engine
-%  total_specific_volume: total pressure divided by total mass in the
+%  total_volume: total volume within the engine
 %  engine
 %
 %  OUTPUT
@@ -32,7 +32,7 @@ function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressu
 
 Power_1 = w_avg * Torque_average; % [W] calcualte power using average torque and average rotational velocity
 
-Work = trapz(total_specific_volume, total_pressure); % calcualte area of the p-v diagram to get work
+Work = trapz(total_volume, total_pressure); % calcualte area of the p-v diagram to get work
 
 Power_2 = Work  / 0.03; % [W] calculate power using the p-v diagram then dividing by the time for one cycle
 
