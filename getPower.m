@@ -1,8 +1,9 @@
 function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  FUNCTION NAME: 
+%  FUNCTION NAME: getPower
 %
 %  PURPOSE 
+%  To calculate the power output of the stirling engine two different ways
 %
 %  INPUT
 %
@@ -19,6 +20,7 @@ function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressu
 %  Work:
 %
 %  FUNCTIONS CALLED
+%  N/A
 %
 %  START OF EXECUTABLE CODE
 %
@@ -27,7 +29,7 @@ Power_1 = w_avg * Torque_average; % [W] calcualte power using average torque and
 
 Work = trapz(total_specific_volume, total_pressure); % calcualte area of the p-v diagram to get work
 
-Power_2 = Work * w_avg; % [W] calculate power using the p-v diagram
+Power_2 = Work  / 0.03; % [W] calculate power using the p-v diagram then dividing by the time for one cycle
 
 
 

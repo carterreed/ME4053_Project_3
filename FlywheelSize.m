@@ -60,7 +60,7 @@ m=steel_d*Vol;
 
 fprintf("Outer Diameter: %dm \n", Do);
 fprintf("Inner Diameter: %dm \n", Di);
-fprintf("Mass of flywheel: %dm \n", m);
+fprintf("Mass of flywheel: %dkg \n", m);
 
 end
 
