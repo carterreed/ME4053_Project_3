@@ -1,4 +1,4 @@
-function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume)
+function [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume, totMass)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FUNCTION NAME: getPower
 %

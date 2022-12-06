@@ -118,7 +118,7 @@ total_specific_volume = total_volume/totMass;
 [ m, Do, Di ]  = FlywheelSize(I,steel_d,fly);
 
 % calculate power using 2 different methods
-[Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume);
+[Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_volume);
 
 % get variables for sterling cycle
 v_r=min(total_volume);

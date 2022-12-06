@@ -30,15 +30,7 @@ elseif length(pp.crank.angle)>1
    end
    Torque=Torque_empty;
 end
-Torque_average= trapz(pp.crank.angle,Torque)/(max(pp.crank.angle)-min(pp.crank.angle));
-figure(1)
-plot (theta2, Torque)
-yline(Torque_average)
-xlabel('Crank Angle [deg]')
-ylabel('Torque [Nm] ')
-title('Torque versus Crank Angle')
-legend('Torque on Flywheel','Average Torque')
-xlim([0 360])
+
 
 
 
