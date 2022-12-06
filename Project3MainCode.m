@@ -142,7 +142,7 @@ xlabel('Crank Angle [rad]')
 ylabel('Volume [m^3]')
 xlim([-pi/2 3*pi/2])
 xticks([-pi/2  0  pi/2 pi 3*pi/2])
-xticklabels({'-\pi/2','0','\pi/2','pi','3\pi/2'})
+xticklabels({'-\pi/2','0','\pi/2','\pi','3\pi/2'})
 
 % graph pressure versus theta
 figure(2)
@@ -152,7 +152,7 @@ ylabel('Pressure [kPa] ')
 title('Pressure versus Crank Angle')
 xlim([-pi/2 3*pi/2])
 xticks([-pi/2  0  pi/2 pi 3*pi/2])
-xticklabels({'-\pi/2','0','\pi/2','pi','3\pi/2'})
+xticklabels({'-\pi/2','0','\pi/2','\pi','3\pi/2'})
 
 figure(3)
 plot (theta2, Torque)
@@ -163,7 +163,7 @@ title('Torque versus Crank Angle')
 legend('Torque on Flywheel','Average Torque')
 xlim([-pi/2 3*pi/2])
 xticks([-pi/2  0  pi/2 pi 3*pi/2])
-xticklabels({'-\pi/2','0','\pi/2','pi','3\pi/2'})
+xticklabels({'-\pi/2','0','\pi/2','\pi','3\pi/2'})
 
 
 % graph Force versus theta at the piston due to pressure
@@ -174,7 +174,7 @@ ylabel('Force [N] ')
 title('Force versus Crank Angle due to Pressure')
 xlim([-pi/2 3*pi /2])
 xticks([-pi/2  0  pi/2 pi 3*pi/2])
-xticklabels({'-\pi/2','0','\pi/2','pi','3\pi/2'})
+xticklabels({'-\pi/2','0','\pi/2','\pi','3\pi/2'})
 
 % graph pressure versus specific volume for sterling engine and sterling
 % cycle
