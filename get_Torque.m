@@ -1,30 +1,22 @@
 function Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore, force)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  FUNCTION NAME: get_torque function
+%  FUNCTION NAME: 
 %
-%  PURPOSE this program is to calculate the torque at the piston connecting
-%  rod
+%  PURPOSE 
 %
 %  INPUT
-%  pp: struct for the power piston
-%  dp: struct for the displacer
-%  TH: higher temperature [K]
-%  TL: low temperature [K]
-%  R: ideal gas constant for air [J/kgK]
-%  totMass: total mass of air in the engine
-%  Vregen: regenerator dead volume [m^3]
-%  bore: the diameter of the piston
 %
 %  OUTPUT
-%  Torque:the Torque applied on the flywheel
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  AUTHOR:Yupeng Ye
-%  DATE: 12/09/2022
+
+%  AUTHOR:
+%  DATE: 
 %
 %  DESCRIPTION OF LOCAL VARIABLES
-%   Torque:the Torque applied on the flywheel
+%
 %  FUNCTIONS CALLED
-%  function Force= get_force(pp,dp,TH,TL,R,totMass,Vregen,bore)
+%
 %  START OF EXECUTABLE CODE
 %
 Torque_empty=zeros(1,length(pp.crank.angle)); 
@@ -38,5 +30,15 @@ elseif length(pp.crank.angle)>1
    end
    Torque=Torque_empty;
 end
-end
+Torque_average= trapz(pp.crank.angle,Torque)/(max(pp.crank.angle)-min(pp.crank.angle));
+figure(1)
+plot (theta2, Torque)
+yline(Torque_average)
+xlabel('Crank Angle [deg]')
+ylabel('Torque [Nm] ')
+title('Torque versus Crank Angle')
+legend('Torque on Flywheel','Average Torque')
+xlim([0 360])
+
+
 
