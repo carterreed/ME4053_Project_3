@@ -131,41 +131,41 @@ p_t=totMass*R*TL./volume_plot;
 % graph volume as a function of crankk angle
 figure(1)
 hold on
-plot(theta ,total_volume, 'DisplayName', "Vtotal")
-plot(theta ,pp.volume,'DisplayName', "Vcomp")
-plot(theta ,dp.volume, 'DisplayName', "Vexp")
+plot(theta2 ,total_volume, 'DisplayName', "Vtotal")
+plot(theta2 ,pp.volume,'DisplayName', "Vcomp")
+plot(theta2 ,dp.volume, 'DisplayName', "Vexp")
 yline(Vregen, 'DisplayName', "Vregen")
 hold off
 title ('Volume versus Crank Angle')
 legend('Vtotal', 'Vcomp', 'Vexp', 'Location', 'Best')
-xlabel('Crank Angle [deg]')
+xlabel('Crank Angle [rad]')
 ylabel('Volume [m^3]')
-xlim([0 360])
+xlim([-pi/2 3*pi/2])
 
 % graph pressure versus theta
 figure(2)
-plot(theta, total_pressure / 1000)
-xlabel('Crank Angle [deg]')
+plot(theta2, total_pressure / 1000)
+xlabel('Crank Angle [rad]')
 ylabel('Pressure [kPa] ')
 title('Pressure versus Crank Angle')
-xlim([0 360])
+xlim([-pi/2 3*pi/2])
 
 figure(3)
-plot (theta, Torque)
+plot (theta2, Torque)
 yline(Torque_average)
-xlabel('Crank Angle [deg]')
+xlabel('Crank Angle [rad]')
 ylabel('Torque [Nm] ')
 title('Torque versus Crank Angle')
 legend('Torque on Flywheel','Average Torque')
-xlim([0 360])
+xlim([-pi/2 3*pi/2])
 
 % graph Force versus theta at the piston due to pressure
 figure(4)
-plot (theta, force)
-xlabel('Crank Angle [deg]')
+plot (theta2, force)
+xlabel('Crank Angle [rad]')
 ylabel('Force [N] ')
 title('Force versus Crank Angle due to Pressure')
-xlim([0 360])
+xlim([-pi/2 3*pi /2])
 
 % graph pressure versus specific volume for sterling engine and sterling
 % cycle
