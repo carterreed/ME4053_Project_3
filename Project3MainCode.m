@@ -43,7 +43,7 @@ TL = 300; % low temperature [K]
 R = 287; % ideal gas constant for air [J/kgK]
 P_min_BDC = 500000; % gas pressure at bottom dead center[Pa]
 Vregen = 0.00001; % regenerator dead volume [m^3]
-density_steel=8000; % Assume 304 stainless steel [kg/m^3]
+steel_d = 8000; % density of steel [kg/m^3]
 
 fly.width = 0.05; % width of flywheel[m]
 fly.thick = 0.07; % thickness of flywheel [m]
@@ -51,8 +51,8 @@ Cf = 0.002; % coefficient of fluctuation, dimenstionless
 w_avg = (2000 / 60) * 2 * pi; % average rotational velocity [rad/s]
 
 % establish angles
-theta = 0:1:360; % crank angle array to plot with
-theta2 = deg2rad(-90): deg2rad(1):deg2rad(270); % converting from degrees to radian, starting at BDC
+theta = 0:1:360; % crank angle array to plot with 
+theta2 = deg2rad(-90): deg2rad(1):deg2rad(270); % converting from degrees to radian
 pp.crank.angle = theta2; % power piston crank angle
 dp.crank.angle = theta2+deg2rad(90); %  diplacer crank angle
 
@@ -76,8 +76,8 @@ total_pressure = get_pressure(pp,dp,TH,TL,R,totMass,Vregen);
 % find force on power piston 
 force= total_pressure / (((bore^2) / 4) * pi);
 
-% find the specific volume
-total_specific_volume = total_volume/totMass;
+% find torque on crank
+Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore, force);
 
 % calculate torque based on total pressure on piston and plot results
 [Torque_average, Torque] = get_Torque(pp, total_pressure, bore, theta);
@@ -85,8 +85,21 @@ total_specific_volume = total_volume/totMass;
 % use the results from torque to calculate moment of intertia of flywheel
 I = TorqueToInertia(theta2, Torque, Cf, w_avg);
 
-%use calculated I to size the flywheel 
-[mass_flywheel, D_outer, D_inner]=FlywheelSize(I,density_steel,fly); 
+% find the specific volume
+total_specific_volume = total_volume/totMass;
+
+% caalculate size of flywheel
+[ m, Do, Di ]  = FlywheelSize(I,steel_d,fly);
+
+% calculate power using 2 different methods
+[Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_specific_volume);
+
+% get variables for sterling cycle
+v_r=min(total_volume);
+v_l=max(total_volume);
+volume_plot=linspace(v_l,v_r,1000);
+p_b=totMass*R*TH./volume_plot;
+p_t=totMass*R*TL./volume_plot;
 
 %% plotting
 % graph volume as a function of crankk angle
@@ -97,8 +110,8 @@ plot(theta,pp.volume,'DisplayName', "Vcomp")
 plot(theta,dp.volume, 'DisplayName', "Vexp")
 yline(Vregen, 'DisplayName', "Vregen")
 hold off
-title ('Volume versus Crank Agnle')
-legend('location', 'best')
+title ('Volume versus Crank Angle')
+legend('Vtotal', 'Vcomp', 'Vexp', 'Location', 'Best')
 xlabel('Crank Angle [deg]')
 ylabel('Volume [m^3]')
 xlim([0 360])
@@ -111,7 +124,16 @@ ylabel('Pressure [kPa] ')
 title('Pressure versus Crank Angle')
 xlim([0 360])
 
-% graph force versus theta 
+figure(3)
+plot (theta, Torque)
+yline(Torque_average)
+xlabel('Crank Angle [deg]')
+ylabel('Torque [Nm] ')
+title('Torque versus Crank Angle')
+legend('Torque on Flywheel','Average Torque')
+xlim([0 360])
+
+% graph Force versus theta at the piston due to pressure
 figure(4)
 plot (theta, force)
 xlabel('Crank Angle [deg]')
@@ -119,13 +141,8 @@ ylabel('Force [N] ')
 title('Force versus Crank Angle')
 xlim([0 360])
 
-% graph specific volume vs. pressure
-v_r=min(total_volume);
-v_l=max(total_volume);
-volume_plot=linspace(v_l,v_r,1000);
-p_b=totMass*R*TH./volume_plot;
-p_t=totMass*R*TL./volume_plot;
-
+% graph pressure versus specific volume for sterling engine and sterling
+% cycle
 figure(5)
 plot (total_specific_volume,total_pressure / 1000)
 xlabel('specific volume [m^3/kg]')

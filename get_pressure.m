@@ -35,7 +35,7 @@ pressure = zeros; % establish an array to fill with pressure values calculated b
 
 for g= 1:length(pp.crank.angle)
 
-    pressure(g) = (totMass * R) / ((dp.volume(g) / TH) + (pp.volume(g) / TL)  + (2 * Vregen / (TH + TL))); % euqation to calculate pressure on the power piston. this is due to the pressure on the displacer happens on top and bottom so they cancel out
+    pressure(g) = (totMass * R) / ((dp.volume(g) / TH) + (pp.volume(g) / TL)  + ((Vregen / (TH + TL) / 2))); % euqation to calculate pressure on the power piston. this is due to the pressure on the displacer happens on top and bottom so they cancel out
 
 end 
 end
