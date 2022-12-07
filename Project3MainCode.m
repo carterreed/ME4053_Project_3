@@ -126,6 +126,14 @@ volume_plot=linspace(v_l,v_r,1000);
 p_b=totMass*R*TH./volume_plot;
 p_t=totMass*R*TL./volume_plot;
 
+% print statements 
+fprintf("Outer Diameter: %dm \n", Do);
+fprintf("Inner Diameter: %dm \n", Di);
+fprintf("Mass of flywheel: %dkg \n", m);
+fprintf('The output power from the average torque and average rotational velocity is %dW \n', Power_1);
+fprintf('The output power from the pressure and volume diamgram is %dW \n ', Power_2);
+
+
 %% plotting
 % graph volume as a function of crankk angle
 figure(1)
@@ -197,3 +205,38 @@ plot(total_volume, total_pressure/1000);
 xlabel('Total Volume [m^3]')
 ylabel('Pressure [kPa]')
 title('Pressure Versus Total Volume for a Stirling Engine')
+
+% varying the hot temperature 
+figure(7)
+hold on
+variable = 50;
+TH_new = linspace(400, 900, variable);
+Do_new = zeros(1, variable);
+Power_new = zeros(1, variable);
+
+for t = 1 : length(variable)
+    TH = TH_new(t);
+    pp = get_position(pp, thetaS);
+    dp = get_position(dp, thetaS);
+    [dp,pp] = get_Exp_Comp_volumes(CR,pp,dp,Vregen,bore);
+    total_volume = get_total_volume(dp, pp, Vregen);
+    totMass = get_mass(pp,dp, Vregen, TH, TL,R, P_min_BDC);
+    total_pressure = get_pressure(pp,dp,totMass, Vregen, TH, TL,R);
+    force = (total_pressure - 101300) * (((bore^2) / 4) * pi);
+    Torque=get_Torque(pp,dp,TH,TL,R,totMass,Vregen,bore, force);
+    Torque_average= trapz(pp.crank.angle,Torque)/(max(pp.crank.angle)-min(pp.crank.angle));
+    I = TorqueToInertia(theta2, Torque, Cf, w_avg);
+    total_specific_volume = total_volume/totMass;
+    [ m, Do, Di ]  = FlywheelSize(I,steel_d,fly);
+    [Power_1, Power_2, Work] = getPower(Torque_average, w_avg, total_pressure, total_volume);
+    Do_new(t) = Do;
+    Power_new(t) = Power_1;
+end
+hold off
+plot(TH_new, Do_new)
+xlabel('Hot Temperature [K]')
+ylabel('Outer Diameter of Flywheel [m]')
+
+figure(8)
+plot(TH_new, Torque_average)
+

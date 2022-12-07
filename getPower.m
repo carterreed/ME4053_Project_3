@@ -37,4 +37,3 @@ Work = trapz(total_volume, total_pressure); % calcualte area of the p-v diagram 
 Power_2 = Work  / 0.03; % [W] calculate power using the p-v diagram then dividing by the time for one cycle
 
 
-

@@ -58,9 +58,7 @@ Vol=(3.14159/4)*(Do^2-(Di)^2)*fly.width;
 %Using calculated volume of the flywheel, find the mass of the flywheel
 m=steel_d*Vol;
 
-fprintf("Outer Diameter: %dm \n", Do);
-fprintf("Inner Diameter: %dm \n", Di);
-fprintf("Mass of flywheel: %dkg \n", m);
+
 
 end
 
